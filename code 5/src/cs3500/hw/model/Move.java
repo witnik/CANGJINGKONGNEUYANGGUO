@@ -1,15 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * This is the Move class that implements IAnimation interface. This class represent the animation
  * of moving the shape from one place to another.
  */
-public class Move implements IAnimation {
-  Shape s;
-  float x1;
-  float y1;
-  int start;
-  int end;
+public class Move extends AbstractAnimation {
+  private float x1;
+  private float y1;
 
   /**
    * This is the constructor of the Move class.
@@ -21,11 +20,11 @@ public class Move implements IAnimation {
    * @param end   when does this move end
    */
   public Move(Shape s, float x1, float y1, int start, int end) {
-    this.s = s;
+    super(s, start, end);
     this.x1 = x1;
     this.y1 = y1;
-    this.start = start;
-    this.end = end;
+    change.add((x1 - s.getX())/(float)(end - start));
+    change.add((y1 - s.getX())/(float)(end - start));
   }
 
   /**
@@ -37,23 +36,11 @@ public class Move implements IAnimation {
   }
 
   /**
-   * This method is a getter that gets the start time of the Move animation.
-   *
-   * @return the start time of the Move animation
+   * This method get the change per unit time of this IAnimation
+   * @return change per unit time of this IAnimation
    */
-  @Override
-  public int getStart() {
-    return this.start;
-  }
-
-  /**
-   * This method is a getter that gets the end time of the Move animation.
-   *
-   * @return the end time of the Move animation
-   */
-  @Override
-  public int getEnd() {
-    return this.end;
+  public ArrayList<Float> getChange() {
+    return change;
   }
 
   /**
@@ -63,6 +50,6 @@ public class Move implements IAnimation {
    */
   public String toString() {
     return "Shape " + s.getName() + " moves from (" + s.getX() + "," + s.getY() + ") to ("
-            + this.x1 + "," + this.y1 + ") from time t=" + this.start + "s to t=" + this.end + "s";
+            + this.x1 + "," + this.y1 + ") from time t=" + this.start + " to t=" + this.end;
   }
 }

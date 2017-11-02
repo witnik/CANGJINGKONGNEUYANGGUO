@@ -112,7 +112,7 @@ public class Oval extends AbstractShape {
             "Lower-left corner: (" + this.x + "," + this.y + "), " +
             "xRadius: " + this.xRadius + ", yRadius: " + this.yRadius + ", Color: (" +
             this.cRed + "," + this.cBlue + "," + this.cGreen + ")\n" +
-            "Appears at t=" + this.appears + "s\n" +
-            "Disappears at t=" + this.disappears + "s\n\n";
+            "Appears at t=" + this.appears + "\n" +
+            "Disappears at t=" + this.disappears + "\n\n";
   }
 }

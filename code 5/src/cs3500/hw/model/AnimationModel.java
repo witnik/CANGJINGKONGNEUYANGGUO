@@ -13,10 +13,11 @@ import java.util.List;
  */
 public class AnimationModel implements IAnimationModel {
 
+  private int tick = 1;
   private ArrayList<IAnimation> moves = new ArrayList<>();
   private String shapeOutput = "Shapes:\n";
   private String animationOutput = "";
-  private ArrayList<Shape> shapes = new ArrayList<>();
+  private ArrayList<Shape> shapes = new ArrayList<Shape>();
 
   /**
    * This method moves a Shape object from one posn to another. This method will throw illegal
@@ -183,8 +184,8 @@ public class AnimationModel implements IAnimationModel {
    * @return list contains all the Shape objects
    */
   @Override
-  public List<Shape> getShape() {
-    return shapes;
+  public ArrayList<Shape> getShape() {
+    return this.shapes;
   }
 
   /**
@@ -192,7 +193,7 @@ public class AnimationModel implements IAnimationModel {
    * @return list contains all the IAnimation objects
    */
   @Override
-  public List<IAnimation> getAnimation() {
+  public ArrayList<IAnimation> getAnimation() {
     return moves;
   }
 }

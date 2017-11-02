@@ -56,6 +56,13 @@ public interface Shape {
   int getAppears();
 
   /**
+   * This is a getter method that gets the disappear time of the Shape object.
+   *
+   * @return the disappear time of the Shape object
+   */
+  int getDisappears();
+
+  /**
    * This method moves a Shape object from one posn to another.
    *
    * @param x1    x of the posn of the Shape object
@@ -100,4 +107,10 @@ public interface Shape {
    * @return a String that describes the Shape object
    */
   String toString();
+
+  Float getRed();
+
+  Float getGreen();
+
+  Float getBlue();
 }

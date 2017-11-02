@@ -110,7 +110,7 @@ public class Rectangle extends AbstractShape {
             "Lower-left corner: (" + this.x + "," + this.y + "), " +
             "Width: " + this.width + ", Height: " + this.height + ", Color: (" +
             this.cRed + "," + this.cBlue + "," + this.cGreen + ")\n" +
-            "Appears at t=" + this.appears + "s\n" +
-            "Disappears at t=" + this.disappears + "s\n\n";
+            "Appears at t=" + this.appears + "\n" +
+            "Disappears at t=" + this.disappears + "\n\n";
   }
 }

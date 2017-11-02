@@ -1,17 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * This is the ChangeColor class that implements IAnimation interface. This class represent the
  * animation of color changing.
  */
-public class ChangeColor implements IAnimation {
+public class ChangeColor extends AbstractAnimation {
 
-  private Shape s;
   private float red;
   private float blue;
   private float green;
-  int start;
-  int end;
 
   /**
    * This is the contructor of the ChangeColor class.
@@ -24,12 +23,13 @@ public class ChangeColor implements IAnimation {
    * @param end   when does the animation end
    */
   ChangeColor(Shape s, float red, float blue, float green, int start, int end) {
-    this.s = s;
+    super(s, start, end);
     this.red = red;
     this.blue = blue;
     this.green = green;
-    this.start = start;
-    this.end = end;
+    change.add((red - s.getRed())/(float)(end - start));
+    change.add((blue - s.getBlue())/(float)(end - start));
+    change.add((green - s.getGreen())/(float)(end - start));
   }
 
   /**
@@ -40,24 +40,8 @@ public class ChangeColor implements IAnimation {
     s.changeColor(red, blue, green, start, end);
   }
 
-  /**
-   * This method is a getter that gets the start time of the ChangeColor animation.
-   *
-   * @return the start time of the ChangeColor animation
-   */
-  @Override
-  public int getStart() {
-    return this.start;
-  }
-
-  /**
-   * This method is a getter that gets the end time of the ChangeColor animation.
-   *
-   * @return the end time of the ChangeColor animation
-   */
-  @Override
-  public int getEnd() {
-    return this.end;
+  public ArrayList<Float> getChange() {
+    return change;
   }
 
   /**
@@ -68,6 +52,6 @@ public class ChangeColor implements IAnimation {
   public String toString() {
     return "Shape " + s.getName() + " changes color from " + s.getColorSet() +
             " to (" + this.red + "," + this.blue + "," + this.green + ") from t=" + this.start +
-            "s to t=" + this.end + "s";
+            " to t=" + this.end;
   }
 }

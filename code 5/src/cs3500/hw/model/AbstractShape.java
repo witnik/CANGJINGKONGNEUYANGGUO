@@ -102,6 +102,14 @@ public abstract class AbstractShape implements Shape {
   }
 
   /**
+   * This is a getter method that gets the disappear time of the Shape object.
+   *
+   * @return the disappear time of the Shape object
+   */
+  public int getDisappears() {
+    return this.disappears;
+  }
+  /**
    * This method moves a AbstractShape object from one posn to another.
    *
    * @param x1    x of the posn of the AbstractShape object
@@ -191,4 +199,16 @@ public abstract class AbstractShape implements Shape {
    * @return a String that describes the AbstractShape object
    */
   public abstract String toString();
+
+  public Float getRed() {
+    return this.cRed;
+  }
+
+  public Float getGreen() {
+    return this.cGreen;
+  }
+
+  public Float getBlue() {
+    return this.cBlue;
+  }
 }

@@ -1,16 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * This is the Scale class that implements IAnimation interface. This class represent the animation
  * of scaling a shape.
  */
-public class Scale implements IAnimation {
+public class Scale extends AbstractAnimation {
 
-  private Shape s;
   private float width;
   private float height;
-  int start;
-  int end;
 
   /**
    * The constructor of the Scale class.
@@ -22,11 +21,12 @@ public class Scale implements IAnimation {
    * @param end    when does the Scale animation end
    */
   Scale(Shape s, float width, float height, int start, int end) {
-    this.s = s;
+    super(s, start, end);
     this.width = width;
     this.height = height;
     this.start = start;
-    this.end = end;
+    change.add((width - s.getWidth())/(float)(end - start));
+    change.add((height - s.getHeight())/(float)(end - start));
   }
 
   /**
@@ -37,24 +37,8 @@ public class Scale implements IAnimation {
     s.scale(this.width, this.height, this.start, this.end);
   }
 
-  /**
-   * This method is a getter that gets the start time of the Scale animation.
-   *
-   * @return the start time of the Scale animation
-   */
-  @Override
-  public int getStart() {
-    return this.start;
-  }
-
-  /**
-   * This method is a getter that gets the end time of the Scale animation.
-   *
-   * @return the end time of the Scale animation
-   */
-  @Override
-  public int getEnd() {
-    return this.end;
+  public ArrayList<Float> getChange() {
+    return change;
   }
 
   /**
@@ -65,6 +49,6 @@ public class Scale implements IAnimation {
   public String toString() {
     return "Shape " + s.getName() + " scales from Width: " + s.getWidth() + ", Height: " +
             s.getHeight() + " to Width: " + this.width + ", Height: " + this.height +
-            "s from t=" + this.start + " to t=" + this.end + "s";
+            " from t=" + this.start + " to t=" + this.end;
   }
 }
