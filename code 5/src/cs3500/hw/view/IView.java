@@ -2,20 +2,26 @@ package view;
 
 public interface IView {
   /**
-   * Make the view visible. This is usually called
-   * after the view is constructed
+   * Make the view visible.
+   * this should be called after a view is constructed.
    */
   void makeVisible();
 
   /**
-   * Transmit an error message to the view, in case
-   * the command could not be processed correctly
-   * @param error
+   * set running speed of this anime.
+   * @param tickPerSecond   speed of the anime.
    */
-  void showErrorMessage(String error);
+  void setDisplaySpeed(int tickPerSecond);
+
+  /**
+   * show error message.
+   * @param error   the error message to be displayed.
+   */
+  void showError(String error);
 
   /**
    * Signal the view to draw itself
    */
   void refresh();
+
 }
