@@ -32,12 +32,12 @@ public class VisualView extends JFrame implements IView{
 
   public static void main(String[] args) {
     AnimationModel model = new AnimationModel();
-    Shape s1 = new Rectangle("r1", 20.0f, 20.0f, 10.0f, 10.0f, 8.0f, 105.0f, 126.0f, 3, 20);
-    Shape s2 = new Rectangle("r2", 10.0f, 50.0f, 30.0f, 60.0f, 8.0f, 105.0f, 126.0f,5,30);
+    Shape s1 = new Rectangle("r1", 20.0f, 20.0f, 10.0f, 10.0f, 0.1f, 0.1f, 0.3f, 3, 20);
+    Shape s2 = new Rectangle("r2", 10.0f, 50.0f, 30.0f, 60.0f, 0.1f, 0.1f, 0.3f,5,30);
     model.addShape(s1);
     model.addShape(s2);
-    model.scale(s2, 50.0f, 100.0f, 8, 12);
-    model.move(s1, 50.0f, 60.0f, 5, 12);
+    model.changeColor(s1, 0.53f, 0.79f, 0.88f, 9, 15);
+    model.move(s1, 50.0f, 60.0f, 5, 19);
     model.animate();
     VisualView visual = new VisualView(model);
     visual.makeVisible();

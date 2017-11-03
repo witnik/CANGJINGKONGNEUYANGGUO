@@ -42,9 +42,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
       int y = (int)s.getY();
       int width = (int)s.getWidth();
       int height = (int)s.getHeight();
-      Float red = s.getRed();
-      Float green = s.getGreen();
-      Float blue = s.getBlue();
+      float red = s.getRed();
+      float green = s.getGreen();
+      float blue = s.getBlue();
       for(IAnimation a: moves) {
         Shape temp = a.getShape();
         if(s.getName().equals(temp.getName())
@@ -60,21 +60,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
             height += (int)((currentTime - a.getStart()) * a.getChange().get(1));
           }
           else {
-            red += (currentTime - a.getStart()) * a.getChange().get(0);
-            green += (currentTime - a.getStart()) * a.getChange().get(1);
-            blue += (currentTime - a.getStart()) * a.getChange().get(2);
+            red += ((currentTime - a.getStart()) * a.getChange().get(0));
+            green += ((currentTime - a.getStart()) * a.getChange().get(1));
+            blue += ((currentTime - a.getStart()) * a.getChange().get(2));
           }
         }
       }
-      if(currentTime <= s.getDisappears()+8
+      if(currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()){
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(red, green, blue));
         g.fillRect(x, y, width, height);
       }
       if(currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Oval) {
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(red, green, blue));
         g.fillOval(x, y, width, height);
       }
     }
