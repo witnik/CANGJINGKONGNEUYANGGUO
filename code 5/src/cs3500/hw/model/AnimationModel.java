@@ -22,14 +22,18 @@ public class AnimationModel implements IAnimationModel {
    * This method moves a Shape object from one posn to another. This method will throw illegal
    * argument if the move can not happen for the Shape object.
    *
-   * @param s     the Shape object that this move method will take place on
+   * @param name  the name of the Shape object that this move method will take place on
    * @param x1    x value for the new posn
    * @param y1    y value for the new posn
    * @param start when does the move method starts
    * @param end   when does the move method ends
    */
   @Override
-  public void move(Shape s, float x1, float y1, int start, int end) {
+  public void move(String name, float x1, float y1, int start, int end) {
+    Shape s = this.getShape(name);
+    if (s == null) {
+      throw new IllegalArgumentException("Can not find the shape with given name");
+    }
     IAnimation moveA = new Move(s, x1, y1, start, end);
     if (!containShape(s)) {
       throw new IllegalArgumentException("Please add this shape into the model first.");
@@ -80,7 +84,7 @@ public class AnimationModel implements IAnimationModel {
    * This method changes the color of a Shape object. This method will throw illegal argument if the
    * change color animation can not happen for the Shape object.
    *
-   * @param s     the Shape object color changing will take place on
+   * @param name  the name of the Shape object color changing will take place on
    * @param red   red color data of the color
    * @param blue  blue color data of the color
    * @param green green color data of the color
@@ -88,7 +92,11 @@ public class AnimationModel implements IAnimationModel {
    * @param end   when does the changeColor animation ends
    */
   @Override
-  public void changeColor(Shape s, float red, float blue, float green, int start, int end) {
+  public void changeColor(String name, float red, float blue, float green, int start, int end) {
+    Shape s = this.getShape(name);
+    if (s == null) {
+      throw new IllegalArgumentException("Can not find the shape with given name");
+    }
     IAnimation changeColorA = new ChangeColor(s, red, blue, green, start, end);
     if (!containShape(s)) {
       throw new IllegalArgumentException("Please add this shape into the model first.");
@@ -105,14 +113,18 @@ public class AnimationModel implements IAnimationModel {
    * This method scales which means changes the width and height of the Shape object. This method
    * will throw illegal argument exception if the scale can not happen for hte Shape object.
    *
-   * @param s      The Shape object scale will take place on
+   * @param name   The name of the Shape object scale will take place on
    * @param width  the width of the Shape object
    * @param height the height of the Shape object
    * @param start  when does the scale animation starts
    * @param end    when does the scale animation ends
    */
   @Override
-  public void scale(Shape s, float width, float height, int start, int end) {
+  public void scale(String name, float width, float height, int start, int end) {
+    Shape s = this.getShape(name);
+    if (s == null) {
+      throw new IllegalArgumentException("Can not find the shape with given name");
+    }
     IAnimation scaleA = new Scale(s, width, height, start, end);
     if (!containShape(s)) {
       throw new IllegalArgumentException("Please add this shape into the model first.");
@@ -199,5 +211,20 @@ public class AnimationModel implements IAnimationModel {
   @Override
   public ArrayList<IAnimation> getAnimation() {
     return moves;
+  }
+
+  /**
+   * This method gets the Shape object in the model with the given name
+   *
+   * @param name the name of the Shape object that are being extracted
+   * @return the Shape object with the given name
+   */
+  public Shape getShape(String name) {
+    for (Shape s : shapes) {
+      if (s.getName() == name) {
+        return s;
+      }
+    }
+    return null;
   }
 }
