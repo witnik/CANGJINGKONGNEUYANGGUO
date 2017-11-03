@@ -36,12 +36,14 @@ public interface IAnimation {
 
   /**
    * This method get the shape of this object
+   *
    * @return the shape of this object
    */
   Shape getShape();
 
   /**
    * This method get the change per unit time of this IAnimation
+   *
    * @return change per unit time of this IAnimation
    */
   ArrayList<Float> getChange();

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is the interface of AnimationModel. This interface controls the whole model. This interface
@@ -69,12 +68,14 @@ public interface IAnimationModel {
 
   /**
    * This is a getter method that extracts all the Shape objects in this model
+   *
    * @return list contains all the Shape objects
    */
   ArrayList<Shape> getShapes();
 
   /**
    * This is a getter method that extracts all the IAnimation objects in this model
+   *
    * @return list contains all the IAnimation objects
    */
   ArrayList<IAnimation> getAnimation();

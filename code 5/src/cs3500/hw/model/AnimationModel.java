@@ -13,8 +13,7 @@ import java.util.List;
  */
 public class AnimationModel implements IAnimationModel {
 
-  private int tick = 1;
-  private ArrayList<IAnimation> moves = new ArrayList<>();
+  private ArrayList<IAnimation> moves = new ArrayList<IAnimation>();
   private String shapeOutput = "Shapes:\n";
   private String animationOutput = "";
   private ArrayList<Shape> shapes = new ArrayList<Shape>();
@@ -40,6 +39,7 @@ public class AnimationModel implements IAnimationModel {
     } else {
       throw new IllegalArgumentException("This animation is taking place right now.");
     }
+    moves.sort(new AnimationComparator());
   }
 
   /**
@@ -98,6 +98,7 @@ public class AnimationModel implements IAnimationModel {
     } else {
       throw new IllegalArgumentException("This animation is taking place right now.");
     }
+    moves.sort(new AnimationComparator());
   }
 
   /**
@@ -121,6 +122,7 @@ public class AnimationModel implements IAnimationModel {
     } else {
       throw new IllegalArgumentException("This animation is taking place right now.");
     }
+    moves.sort(new AnimationComparator());
   }
 
   /**
@@ -132,6 +134,7 @@ public class AnimationModel implements IAnimationModel {
     if (!containShape(s)) {
       shapes.add(s);
     }
+    shapes.sort(new ShapeComparator());
   }
 
   /**
@@ -150,17 +153,16 @@ public class AnimationModel implements IAnimationModel {
     return false;
   }
 
+
   /**
    * This method proceeds all the animations with all the Shape objects in a sorted order by their
    * starting time.
    */
   public void animate() {
-    shapes.sort(new ShapeComparator());
+
     for (Shape s : shapes) {
       shapeOutput = shapeOutput + s.toString() + "\n";
     }
-
-    moves.sort(new AnimationComparator());
 
     for (IAnimation a : moves) {
       a.act();
@@ -181,6 +183,7 @@ public class AnimationModel implements IAnimationModel {
 
   /**
    * This is a getter method that extracts all the Shape objects in this model
+   *
    * @return list contains all the Shape objects
    */
   @Override
@@ -190,6 +193,7 @@ public class AnimationModel implements IAnimationModel {
 
   /**
    * This is a getter method that extracts all the IAnimation objects in this model
+   *
    * @return list contains all the IAnimation objects
    */
   @Override

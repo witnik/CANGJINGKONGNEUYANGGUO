@@ -109,6 +109,7 @@ public abstract class AbstractShape implements Shape {
   public int getDisappears() {
     return this.disappears;
   }
+
   /**
    * This method moves a AbstractShape object from one posn to another.
    *
@@ -200,15 +201,30 @@ public abstract class AbstractShape implements Shape {
    */
   public abstract String toString();
 
-  public Float getRed() {
+  /**
+   * This is a getter method that gets the red color of the Shape object
+   *
+   * @return the red color data a of the Shape object
+   */
+  public float getRed() {
     return this.cRed;
   }
 
-  public Float getGreen() {
+  /**
+   * This is a getter method that gets the green color of the Shape object
+   *
+   * @return the green color data a of the Shape object
+   */
+  public float getGreen() {
     return this.cGreen;
   }
 
-  public Float getBlue() {
+  /**
+   * This is a getter method that gets the blue color of the Shape object
+   *
+   * @return the blue color data a of the Shape object
+   */
+  public float getBlue() {
     return this.cBlue;
   }
 }

@@ -27,9 +27,9 @@ public class ChangeColor extends AbstractAnimation {
     this.red = red;
     this.blue = blue;
     this.green = green;
-    change.add((red - s.getRed())/(float)(end - start));
-    change.add((blue - s.getBlue())/(float)(end - start));
-    change.add((green - s.getGreen())/(float)(end - start));
+    change.add((red - s.getRed()) / ((float) (end - start + 1)));
+    change.add((blue - s.getBlue()) / ((float) (end - start + 1)));
+    change.add((green - s.getGreen()) / ((float) (end - start + 1)));
   }
 
   /**
@@ -40,10 +40,6 @@ public class ChangeColor extends AbstractAnimation {
     s.changeColor(red, blue, green, start, end);
   }
 
-  public ArrayList<Float> getChange() {
-    return change;
-  }
-
   /**
    * This method outputs what the ChangeColor animation does to an object.
    *
@@ -52,6 +48,6 @@ public class ChangeColor extends AbstractAnimation {
   public String toString() {
     return "Shape " + s.getName() + " changes color from " + s.getColorSet() +
             " to (" + this.red + "," + this.blue + "," + this.green + ") from t=" + this.start +
-            " to t=" + this.end;
+            "s to t=" + this.end;
   }
 }

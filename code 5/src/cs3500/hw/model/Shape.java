@@ -108,9 +108,24 @@ public interface Shape {
    */
   String toString();
 
-  Float getRed();
+  /**
+   * This is a getter method that gets the red color of the Shape object
+   *
+   * @return the red color data a of the Shape object
+   */
+  float getRed();
 
-  Float getGreen();
+  /**
+   * This is a getter method that gets the green color of the Shape object
+   *
+   * @return the green color data a of the Shape object
+   */
+  float getGreen();
 
-  Float getBlue();
+  /**
+   * This is a getter method that gets the blue color of the Shape object
+   *
+   * @return the blue color data a of the Shape object
+   */
+  float getBlue();
 }

@@ -25,8 +25,8 @@ public class Scale extends AbstractAnimation {
     this.width = width;
     this.height = height;
     this.start = start;
-    change.add((width - s.getWidth())/(float)(end - start));
-    change.add((height - s.getHeight())/(float)(end - start));
+    change.add((width - s.getWidth()) / (float) (end - start + 1));
+    change.add((height - s.getHeight()) / (float) (end - start + 1));
   }
 
   /**
@@ -35,10 +35,6 @@ public class Scale extends AbstractAnimation {
   @Override
   public void act() {
     s.scale(this.width, this.height, this.start, this.end);
-  }
-
-  public ArrayList<Float> getChange() {
-    return change;
   }
 
   /**
