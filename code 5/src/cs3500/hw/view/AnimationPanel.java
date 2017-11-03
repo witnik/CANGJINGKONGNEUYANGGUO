@@ -15,6 +15,7 @@ import cs3500.hw05.model.Oval;
 import cs3500.hw05.model.Scale;
 import cs3500.hw05.model.Shape;
 import cs3500.hw05.model.Rectangle;
+import javafx.animation.Animation;
 
 public class AnimationPanel extends JPanel implements ActionListener {
   ArrayList<Shape> shapes;
@@ -102,12 +103,37 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
   }
 
+  public String toSVG() {
+    String result ="";
+    for (Shape s: this.shapes) {
+      String type;
+      String tempResult="";
+      if (s instanceof Rectangle) {type = "rect";}
+      else {type = "ellipse";}
+      ArrayList<IAnimation> allInstructions = new ArrayList<IAnimation>();
+      for (IAnimation move : this.moves) {
+        if (move.getShape().getName()==s.getName()) {
+          allInstructions.add(move);
+        }
+      }
 
+      tempResult = String.format("<%s id=\"%s\" cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\"" +
+              " fill=\"rgb(%.1f,%.1f,%.1f)\" visibility=\"hidden\" >\n", type, s.getName(),
+              Math.round(s.getX()), Math.round(s.getY()), Math.round(s.getWidth()), Math.round(s.getHeight()),
+              s.getRed(), s.getGreen(), s.getBlue());
+      tempResult+=;
+
+      tempResult+="</"+ type+ ">";
+    }
+
+    return "<svg width=\"120\" height=\"120\" viewBox=\"0 0 120 120\"\n" +
+            "    xmlns=\"http://www.w3.org/2000/svg\">\n" + result + "</svg>"
+  }
 }
 
 
+<circle fill="red" cx="50%" cy="50%" r="30" stroke="black">
 
-
-
+<ellipse id="C" cx="500" cy="100" rx="60" ry="30" fill="rgb(0,0,255)" visibility="visible" >
 
 
