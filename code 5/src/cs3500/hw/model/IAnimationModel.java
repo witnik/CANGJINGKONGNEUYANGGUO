@@ -12,38 +12,38 @@ public interface IAnimationModel {
    * This method moves a Shape object from one posn to another. This method will throw illegal
    * argument if the move can not happen for the Shape object.
    *
-   * @param name  the name of the Shape object that this move method will take place on
+   * @param s  the Shape object that this move method will take place on
    * @param x1    x value for the new posn
    * @param y1    y value for the new posn
    * @param start when does the move method starts
    * @param end   when does the move method ends
    */
-  void move(String name, float x1, float y1, int start, int end);
+  void move(Shape s, float x1, float y1, int start, int end);
 
   /**
    * This method changes the color of a Shape object. This method will throw illegal argument if the
    * change color animation can not happen for the Shape object.
    *
-   * @param name  the name of the Shape object color changing will take place on
+   * @param s  the Shape object color changing will take place on
    * @param red   red color data of the color
    * @param blue  blue color data of the color
    * @param green green color data of the color
    * @param start when does the changeColor animation starts
    * @param end   when does the changeColor animation ends
    */
-  void changeColor(String name, float red, float blue, float green, int start, int end);
+  void changeColor(Shape s, float red, float blue, float green, int start, int end);
 
   /**
    * This method scales which means changes the width and height of the Shape object. This method
    * will throw illegal argument exception if the scale can not happen for hte Shape object.
    *
-   * @param name   The name of the Shape object scale will take place on
+   * @param s   the Shape object scale will take place on
    * @param width  the width of the Shape object
    * @param height the height of the Shape object
    * @param start  when does the scale animation starts
    * @param end    when does the scale animation ends
    */
-  void scale(String name, float width, float height, int start, int end);
+  void scale(Shape s, float width, float height, int start, int end);
 
   /**
    * This method proceeds all the animations with all the Shape objects in a sorted order by their
