@@ -12,37 +12,37 @@ public class AnimeModelBuilder implements TweenModelBuilder<AnimationModel> {
   }
   AnimeModelBuilder(AnimationModel model) {this.model = model;}
   @Override
-  public TweenModelBuilder addOval(String name, float cx, float cy, float xRadius, float yRadius, float red, float green, float blue, int startOfLife, int endOfLife) {
+  public TweenModelBuilder<AnimationModel> addOval(String name, float cx, float cy, float xRadius, float yRadius, float red, float green, float blue, int startOfLife, int endOfLife) {
     Oval shape = new Oval(name, cx, cy, xRadius, yRadius, red, green, blue, startOfLife, endOfLife);
     this.model.addShape(shape);
     return this;
   }
 
   @Override
-  public TweenModelBuilder addRectangle(String name, float lx, float ly, float width, float height, float red, float green, float blue, int startOfLife, int endOfLife) {
+  public TweenModelBuilder<AnimationModel> addRectangle(String name, float lx, float ly, float width, float height, float red, float green, float blue, int startOfLife, int endOfLife) {
     Rectangle shape = new Rectangle(name, lx, ly, width, height, red, green, blue, startOfLife, endOfLife);
     this.model.addShape(shape);
     return this;
   }
 
   @Override
-  public TweenModelBuilder addMove(String name, float moveFromX, float moveFromY, float moveToX, float moveToY, int startTime, int endTime) {
-    Shape s = this.model.getShape(name);
-    this.model.move(s, moveToX, moveToY, startTime, endTime);
+  public TweenModelBuilder<AnimationModel> addMove(String name, float moveFromX, float moveFromY, float moveToX, float moveToY, int startTime, int endTime) {
+ //   Shape s = this.model.getShape(name);
+    this.model.move(name, moveToX, moveToY, startTime, endTime);
     return this;
   }
 
   @Override
-  public TweenModelBuilder addColorChange(String name, float oldR, float oldG, float oldB, float newR, float newG, float newB, int startTime, int endTime) {
-    Shape s = this.model.getShape(name);
-    this.model.changeColor(s, newR, newB, newG, startTime, endTime);
+  public TweenModelBuilder<AnimationModel> addColorChange(String name, float oldR, float oldG, float oldB, float newR, float newG, float newB, int startTime, int endTime) {
+
+    this.model.changeColor(name, newR, newB, newG, startTime, endTime);
     return this;
   }
 
   @Override
-  public TweenModelBuilder addScaleToChange(String name, float fromSx, float fromSy, float toSx, float toSy, int startTime, int endTime) {
-    Shape s = this.model.getShape(name);
-    this.model.scale(s, toSx, toSy, startTime, endTime);
+  public TweenModelBuilder<AnimationModel> addScaleToChange(String name, float fromSx, float fromSy, float toSx, float toSy, int startTime, int endTime) {
+    //Shape s = this.model.getShape(name);
+    this.model.scale(name, toSx, toSy, startTime, endTime);
     return this;
   }
 

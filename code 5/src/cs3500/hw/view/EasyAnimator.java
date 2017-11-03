@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -9,9 +10,9 @@ public final class EasyAnimator {
 
   public static void main(String[] args) {
     // FILL IN HERE
-    String fileName="";
-    String viewType="";
-    String outPutFile="";
+    String fileName= "/Users/TomPeng/Desktop/big-bang-big-crunch.txt";
+    String viewType="svg";
+    String outPutFile="name.svg";
     int tickPersecond =1;
 
     for (int i=0; i<args.length;i++) {
@@ -54,18 +55,19 @@ public final class EasyAnimator {
       view = new TextualView(tickPersecond, model.toString());
       view.makeVisible();
     }
-    if (viewType.compareTo("svg")==0) {
+    else if (viewType.compareTo("svg")==0) {
       view = new SVGView(model, tickPersecond);
+      String message = ((SVGView)view).getSVG();
       view.makeVisible();
       try {
         PrintWriter writer = new PrintWriter(outPutFile);
-        writer.write(((SVGView)view).getSVG());
+        writer.println(message);
         writer.close();
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }
     }
-    if (viewType.compareTo("visual")==0) {
+    else if (viewType.compareTo("visual")==0) {
       view = new VisualView(model, tickPersecond);
       view.makeVisible();
     }
