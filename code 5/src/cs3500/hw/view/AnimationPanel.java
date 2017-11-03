@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import model.ChangeColor;
 import model.IAnimation;
+import model.Rectangle;
 import model.Move;
 import model.Oval;
 import model.Scale;
@@ -37,7 +39,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    for(Shape s : shapes) {
+    for(int i = 0; i < shapes.size(); i++) {
+      Shape s = shapes.get(i);
       int x = (int)s.getX();
       int y = (int)s.getY();
       int width = (int)s.getWidth();
@@ -52,24 +55,27 @@ public class AnimationPanel extends JPanel implements ActionListener {
                 && currentTime <= a.getEnd()){
 
           if(a instanceof Move){
-            x += (int)((currentTime - a.getStart()) * a.getChange().get(0));
-            y += (int)((currentTime - a.getStart()) * a.getChange().get(1));
+            x += (int)(1 * a.getChange().get(0));
+            y += (int)(1 * a.getChange().get(1));
           }
           else if(a instanceof Scale) {
-            width += (int)((currentTime - a.getStart()) * a.getChange().get(0));
-            height += (int)((currentTime - a.getStart()) * a.getChange().get(1));
+            width += (int)(1 * a.getChange().get(0));
+            height += (int)(1 * a.getChange().get(1));
           }
           else {
-            red += ((currentTime - a.getStart()) * a.getChange().get(0));
-            green += ((currentTime - a.getStart()) * a.getChange().get(1));
-            blue += ((currentTime - a.getStart()) * a.getChange().get(2));
+            red += a.getChange().get(0);
+            green += a.getChange().get(1);
+            blue += a.getChange().get(2);
           }
         }
       }
       if(currentTime <= s.getDisappears()
-              && currentTime >= s.getAppears()){
+              && currentTime >= s.getAppears()
+              && s instanceof Rectangle){
         g.setColor(new Color(red, green, blue));
         g.fillRect(x, y, width, height);
+        shapes.set(i, new Rectangle(s.getName(), (float)x, (float)y, (float)width, (float)height, red, green, blue, s.getAppears(), s.getDisappears())
+        );
       }
       if(currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
