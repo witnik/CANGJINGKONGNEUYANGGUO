@@ -63,9 +63,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     for (int i = 0; i < shapes.size(); i++) {
       Shape s = shapes.get(i);
       float x = s.getX();
-      float y = (int) s.getY();
-      float width = (int) s.getWidth();
-      float height = (int) s.getHeight();
+      float y = s.getY();
+      float width = s.getWidth();
+      float height = s.getHeight();
       float red = s.getRed();
       float green = s.getGreen();
       float blue = s.getBlue();
@@ -92,14 +92,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
               && s instanceof Rectangle) {
         g.setColor(new Color(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)));
         g.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
-        shapes.set(i, new Rectangle(s.getName(), (float) x, (float) y, (float) width,
+        shapes.set(i, new Rectangle(s.getName(), x, y, width,
                 (float) height, red, blue, green, s.getAppears(), s.getDisappears()));
       } else if (currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Oval) {
         g.setColor(new Color(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)));
         g.fillOval(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
-        shapes.set(i, new Oval(s.getName(), (float) x, (float) y, (float) width,
+        shapes.set(i, new Oval(s.getName(), x, y, width,
                 (float) height, red, blue, green, s.getAppears(), s.getDisappears()));
       }
     }
@@ -162,7 +162,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
       ArrayList<IAnimation> allInstructions = new ArrayList<IAnimation>();
       tempResult += start;
       for (IAnimation move : this.moves) {
-        if (move.getShape().getName() == s.getName()) {
+        if (move.getShape().getName().equals(s.getName())) {
           allInstructions.add(move);
         }
       }
@@ -175,24 +175,24 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
       for (IAnimation m : allInstructions) {
         if (m instanceof Move) {
-          int x = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1));
-          int y = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1));
+          int x = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1) + s.getX());
+          int y = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1) + s.getY());
           tempResult += String.format("<animate attributeType=\"xml\" begin=\"%ds\" " +
                           "dur=\"%ds\" attributeName=\"%sx\"" +
                           " from=\"%d\" to=\"%d\" fill=\"freeze\" />\n",
                   m.getStart() / tick, (m.getEnd() - m.getStart() / tick),
-                  param, Math.round(m.getShape().getX()),
+                  param, Math.round(s.getX()),
                   Math.round(x));
           tempResult += String.format("<animate attributeType=\"xml\" begin=\"%ds\" " +
                           "dur=\"%ds\" attributeName=\"%sy\" from=\"%d\"" +
                           " to=\"%d\" fill=\"freeze\" />\n",
                   m.getStart() / tick, (m.getEnd() - m.getStart() / tick),
-                  param, Math.round(m.getShape().getY()),
+                  param, Math.round(s.getY()),
                   Math.round(y));
         } else if (m instanceof ChangeColor) {
-          float red = m.getChange().get(0) * (float) (m.getEnd() - m.getStart() + 1);
-          float green = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1);
-          float blue = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1);
+          float red = m.getChange().get(0) * (float) (m.getEnd() - m.getStart() + 1) + s.getRed();
+          float green = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1) + s.getGreen();
+          float blue = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1) + s.getBlue();
           tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"fill\"" +
                           " from=\"rgb(%d,%d,%d)\" to=\"rgb(%d,%d,%d)\"\n dur=\"%d\"" +
                           " begin=\"%ds\" repeatCount=\"0\" fill=\"freeze\" />\n",
@@ -201,8 +201,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
                   Math.round(green * 255), Math.round(blue * 255), m.getEnd() - m.getStart(),
                   m.getStart());
         } else {
-          int width = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1));
-          int height = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1));
+          int width = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1) + s.getWidth());
+          int height = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1) + s.getHeight());
           tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"%s\"" +
                           " from=\"%d\" to=\"%d\"\n dur=\"%d\" begin=\"%ds\"" +
                           " repeatCount=\"0\" fill=\"freeze\" />\n", xLen,
