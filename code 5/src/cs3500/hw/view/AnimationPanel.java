@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import model.ChangeColor;
 import model.IAnimation;
 import model.Rectangle;
 import model.Move;
@@ -16,9 +15,8 @@ import model.Scale;
 import model.Shape;
 
 public class AnimationPanel extends JPanel implements ActionListener {
-  ArrayList<Shape> shapes = new ArrayList<Shape>();
-  ArrayList<IAnimation> moves = new ArrayList<IAnimation>();
-  int end = 0;
+  ArrayList<Shape> shapes;
+  ArrayList<IAnimation> moves;
   int tick = 1;
   Timer timer = new Timer(1000, (ActionListener) this);
   int currentTime = 0;
@@ -27,9 +25,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
     this.shapes = shapes;
     this.moves = moves;
     this.tick = tick;
-    if(!shapes.isEmpty()) {
-      end = shapes.get(shapes.size() - 1).getDisappears();
-    }
   }
 
   public void draw() {
@@ -53,7 +48,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         if(s.getName().equals(temp.getName())
                 && currentTime >= a.getStart()
                 && currentTime <= a.getEnd()){
-
           if(a instanceof Move){
             x += (int)(1 * a.getChange().get(0));
             y += (int)(1 * a.getChange().get(1));
@@ -63,9 +57,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
             height += (int)(1 * a.getChange().get(1));
           }
           else {
-            red += a.getChange().get(0);
-            green += a.getChange().get(1);
-            blue += a.getChange().get(2);
+            red += (a.getChange().get(0));
+            green += (a.getChange().get(1));
+            blue += (a.getChange().get(2));
           }
         }
       }
@@ -74,21 +68,22 @@ public class AnimationPanel extends JPanel implements ActionListener {
               && s instanceof Rectangle){
         g.setColor(new Color(red, green, blue));
         g.fillRect(x, y, width, height);
-        shapes.set(i, new Rectangle(s.getName(), (float)x, (float)y, (float)width, (float)height, red, green, blue, s.getAppears(), s.getDisappears())
-        );
+        shapes.set(i, new Rectangle(s.getName(), (float)x, (float)y, (float)width, (float)height, red, blue, green, s.getAppears(), s.getDisappears()));
       }
       if(currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Oval) {
         g.setColor(new Color(red, green, blue));
         g.fillOval(x, y, width, height);
+        shapes.set(i, new Oval(s.getName(), (float)x, (float)y, (float)width, (float)height, red, blue, green, s.getAppears(), s.getDisappears()));
+
       }
     }
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (currentTime < end) {
+    if (currentTime < 1000) {
     currentTime++;
     repaint();
     }
