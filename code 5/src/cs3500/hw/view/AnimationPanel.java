@@ -48,15 +48,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
       for(IAnimation a: moves) {
         Shape temp = a.getShape();
         if(s.getName().equals(temp.getName())
-                && currentTime <= a.getStart()
-                && currentTime >= a.getEnd()){
+                && currentTime >= a.getStart()
+                && currentTime <= a.getEnd()){
+
           if(a instanceof Move){
-            x += (currentTime - a.getStart()) * a.getChange().get(0);
-            y += (currentTime - a.getStart()) * a.getChange().get(1);
+            x += (int)((currentTime - a.getStart()) * a.getChange().get(0));
+            y += (int)((currentTime - a.getStart()) * a.getChange().get(1));
           }
           else if(a instanceof Scale) {
-            width += (currentTime - a.getStart()) * a.getChange().get(0);
-            height += (currentTime - a.getStart()) * a.getChange().get(1);
+            width += (int)((currentTime - a.getStart()) * a.getChange().get(0));
+            height += (int)((currentTime - a.getStart()) * a.getChange().get(1));
           }
           else {
             red += (currentTime - a.getStart()) * a.getChange().get(0);
@@ -65,7 +66,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
           }
         }
       }
-      if(currentTime <= s.getDisappears()
+      if(currentTime <= s.getDisappears()+8
               && currentTime >= s.getAppears()){
         g.setColor(Color.BLACK);
         g.fillRect(x, y, width, height);
