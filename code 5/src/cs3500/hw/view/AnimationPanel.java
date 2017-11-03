@@ -122,8 +122,19 @@ public class AnimationPanel extends JPanel implements ActionListener {
               Math.round(s.getX()), Math.round(s.getY()), Math.round(s.getWidth()), Math.round(s.getHeight()),
               s.getRed(), s.getGreen(), s.getBlue());
       tempResult+=;
+      for (IAnimation m : allInstructions) {
+        if (m instanceof Move) {
 
-      tempResult+="</"+ type+ ">";
+        }
+        else if(m instanceof ChangeColor) {
+
+        }
+        else {
+
+        }
+      }
+      tempResult+="</"+ type+ ">\n";
+      result += tempResult;
     }
 
     return "<svg width=\"120\" height=\"120\" viewBox=\"0 0 120 120\"\n" +
