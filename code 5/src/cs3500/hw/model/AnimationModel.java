@@ -184,7 +184,7 @@ public class AnimationModel implements IAnimationModel {
    * @return list contains all the Shape objects
    */
   @Override
-  public ArrayList<Shape> getShape() {
+  public ArrayList<Shape> getShapes() {
     return this.shapes;
   }
 

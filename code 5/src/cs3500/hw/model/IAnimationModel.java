@@ -71,7 +71,7 @@ public interface IAnimationModel {
    * This is a getter method that extracts all the Shape objects in this model
    * @return list contains all the Shape objects
    */
-  ArrayList<Shape> getShape();
+  ArrayList<Shape> getShapes();
 
   /**
    * This is a getter method that extracts all the IAnimation objects in this model
