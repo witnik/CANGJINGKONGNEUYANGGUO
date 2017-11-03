@@ -133,12 +133,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
           float red = m.getChange().get(0) * (float)(m.getEnd() - m.getStart() + 1);
           float green = m.getChange().get(1) * (float)(m.getEnd() - m.getStart() + 1);
           float blue = m.getChange().get(1) * (float)(m.getEnd() - m.getStart() + 1);
-          tempResult += String.format("<animateColor attributeName=\"fill\"" +
-                          " attributeType=\"XML\"\n from=\"rgb(%.1f,%.1f,%.1f)\"" +
-                          " to=\"rgb(%.1f,%.1f,%.1f)\" dur=\"%ds\"" +
-                          " begin=\"%ds\" repeatCount=\"indefinite\"/>",
-                  s.getRed(), s.getGreen(), s.getBlue(), red, green, blue,
-                  m.getEnd() - m.getStart(), m.getStart());
+          tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"fill\"" +
+                  " from=\"rgb(%.1f,%.1f,%.1f)\" to=\"rgb(%.1f,%.1f,%.1f)\"\n dur=\"%d\"" +
+                  " begin=\"%ds\" repeatCount=\"indefinite\"/>",
+                  s.getRed(), s.getGreen(), s.getBlue(), red, green, blue, m.getEnd()-m.getStart(),
+                  m.getStart());
         } else {
           int width = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1));
           int height = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1));
