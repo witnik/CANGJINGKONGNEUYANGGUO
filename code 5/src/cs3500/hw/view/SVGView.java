@@ -62,8 +62,7 @@ public class SVGView extends JFrame implements IView {
    * This is a getter method that gets the SVG format output.
    * @return the SVG format output
    */
-  public String getSVG() {
-    String copy = this.panel.toSVG();
-    return  copy;
+    String getSVG() {
+     return this.panel.toSVG();
   }
 }

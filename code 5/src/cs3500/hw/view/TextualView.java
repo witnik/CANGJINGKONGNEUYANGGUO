@@ -1,24 +1,20 @@
 package view;
 
-import sun.awt.SunHints;
-
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.*;
 
 /**
- * This is the TextualView class that output all the data from the model in text format in the
+ * This is the view.TextualView class that output all the data from the model in text format in the
  * window.
  */
 public class TextualView extends JFrame implements IView {
 
   private int tickPerSecond;
+  String message;
 
   /**
-   * This constructor of the TextualView class.
+   * This constructor of the view.TextualView class.
    *
    * @param message the String message output from the model
    */
@@ -29,34 +25,12 @@ public class TextualView extends JFrame implements IView {
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     JPanel panel = new JPanel();
     JLabel text = new JLabel();
-    text.setText(this.modifyResult(message));
+    this.message = message;
+    text.setText(this.modifyResult(this.message));
     panel.add(text);
     JScrollPane pane = new JScrollPane(panel);
     this.add(pane);
     pack();
-  }
-
-  public static void main(String[] args) {
-    String s = "Shapes:\n" +
-            "Name: R\n" +
-            "Type: rectangle\n" +
-            "Lower-left corner: (200.0,200.0), Width: 50.0, Height: 100.0, Color: (1.0,0.0,0.0)\n" +
-            "Appears at t=1\n" +
-            "Disappears at t=100\n" +
-            "\n" +
-            "Name: C\n" +
-            "Type: oval\n" +
-            "Center: (500.0,100.0), X radius: 60.0, Y radius: 30.0, Color: (0.0,0.0,1.0)\n" +
-            "Appears at t=6\n" +
-            "Disappears at t=100\n" +
-            "\n" +
-            "Shape R moves from (200.0,200.0) to (300.0,300.0) from t=10 to t=50\n" +
-            "Shape C moves from (500.0,100.0) to (500.0,400.0) from t=20 to t=70\n" +
-            "Shape C changes color from (0.0,0.0,1.0) to (0.0,1.0,0.0) from t=50 to t=80\n" +
-            "Shape R scales from Width: 50.0, Height: 100.0 to Width: 25.0, Height: 100.0 from t=51 to t=70\n" +
-            "Shape R moves from (300.0,300.0) to (200.0,200.0) from t=70 to t=100";
-    TextualView view = new TextualView(s, 1);
-    view.makeVisible();
   }
 
   /**
@@ -109,8 +83,14 @@ public class TextualView extends JFrame implements IView {
       String line = scan.nextLine();
       st += line + "<br>";
     }
-
     return "<html>" + st + "</html>";
   }
 
+  /**
+   * This is a getter method that translate the
+   * @return
+   */
+  public String toTxt() {
+    return this.modifyResult(this.message);
+  }
 }

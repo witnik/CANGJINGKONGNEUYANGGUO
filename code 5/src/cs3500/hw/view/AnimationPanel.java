@@ -6,20 +6,19 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
+import cs3500.hw05.model.ChangeColor;
+import cs3500.hw05.model.IAnimation;
+import cs3500.hw05.model.Move;
+import cs3500.hw05.model.Oval;
+import cs3500.hw05.model.Scale;
+import cs3500.hw05.model.Shape;
+import cs3500.hw05.model.Rectangle;
 import javax.swing.*;
 
-import model.ChangeColor;
-import model.IAnimation;
-import model.Move;
-import model.Oval;
-import model.Scale;
-import model.Shape;
-import model.Rectangle;
 
 /**
- * This is the AnimationPanel class which extends JPanel and implements the ActionListener
- * interface. This class represents the AnimationPanel object which are used to output a visual and
+ * This is the view.AnimationPanel class which extends JPanel and implements the ActionListener
+ * interface. This class represents the view.AnimationPanel object which are used to output a visual and
  * a SVG format output window. This panel takes in data from the model and transfer them to
  * outputs.
  */
@@ -31,7 +30,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   private int currentTime = 0;
 
   /**
-   * This is the constructor of the AnimationPanel class.
+   * This is the constructor of the view.AnimationPanel class.
    *
    * @param shapes the list of shapes that are in the model
    * @param moves  the list of animation instructions that are in the model
@@ -43,6 +42,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     this.moves = moves;
     this.tick = tick;
     this.timer = new Timer(Math.round(1000/tick), (ActionListener) this);
+    this.setPreferredSize(new Dimension(600,600));
   }
 
   /**
