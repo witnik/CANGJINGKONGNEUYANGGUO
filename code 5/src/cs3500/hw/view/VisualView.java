@@ -1,43 +1,35 @@
 package view;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
+import java.awt.*;
 import java.util.ArrayList;
 
 
 import javax.swing.*;
 
-import model.AnimationModel;
-import model.IAnimation;
-import model.IAnimationModel;
-import model.Oval;
-import model.Rectangle;
-import model.Shape;
-import view.AnimationPanel;
-import view.IView;
-
+import cs3500.hw05.model.IAnimation;
+import cs3500.hw05.model.IAnimationModel;
+import cs3500.hw05.model.Shape;
 /**
- * This is the view class VisualView that outputs the graph of this model in to the visual output
+ * This is the view class view.VisualView that outputs the graph of this model in to the visual output
  * window transfering data from the model.
  */
 public class VisualView extends JFrame implements IView {
   private IAnimationModel model;
 
   /**
-   * Constructor of the VisualView class.
+   * Constructor of the view.VisualView class.
    *
    * @param model         the model that are being outputed visually
    * @param tickPerSecond the speed of the animation
    */
   public VisualView(IAnimationModel model, int tickPerSecond) {
     super();
-    this.setSize(1000, 1000);
+    this.setPreferredSize(new Dimension(500, 500));
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.model = model;
     ArrayList<Shape> shapes = this.model.getShapes();
     ArrayList<IAnimation> animations = this.model.getAnimation();
     AnimationPanel animationPanel = new AnimationPanel(shapes, animations, tickPerSecond);
-
     JScrollPane p = new JScrollPane(animationPanel);
     this.add(p);
     animationPanel.draw();
