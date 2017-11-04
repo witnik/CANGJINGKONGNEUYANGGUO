@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 import javax.swing.*;
@@ -76,30 +77,30 @@ public class AnimationPanel extends JPanel implements ActionListener {
                 && currentTime >= a.getStart()
                 && currentTime <= a.getEnd()) {
           if (a instanceof Move) {
-            x = s.getX() + a.getChange().get(0);
-            y = s.getY() + a.getChange().get(1);
+            x = s.getX() + (((Move)a).getX1() - s.getX()) / (float) (a.getEnd() - currentTime + 1);
+            y = s.getY() + (((Move)a).getY1() - s.getY()) / (float) (a.getEnd() - currentTime + 1);
           } else if (a instanceof Scale) {
-            width = s.getWidth() + a.getChange().get(0);
-            height = s.getHeight() + a.getChange().get(1);
+            width = s.getWidth() + (((Scale)a).getNwidth() - s.getWidth()) / (float) (a.getEnd() - currentTime + 1);
+            height = s.getHeight() + (((Scale)a).getNheight() - s.getHeight()) / (float) (a.getEnd() - currentTime + 1);
           } else {
-            red = s.getRed() + (a.getChange().get(0));
-            green = s.getGreen() + (a.getChange().get(2));
-            blue = s.getBlue() + (a.getChange().get(1));
+            red = s.getRed() + (((ChangeColor)a).getRed() - s.getRed()) / (float) (a.getEnd() - currentTime + 1);
+            green = s.getGreen() + (((ChangeColor)a).getGreen() - s.getGreen()) / (float) (a.getEnd() - currentTime + 1);
+            blue = s.getBlue() + (((ChangeColor)a).getBlue() - s.getBlue()) / (float) (a.getEnd() - currentTime + 1);
           }
         }
       }
       if (currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Rectangle) {
-        g.setColor(new Color(Math.round(red * 255), Math.round(green * 255),
-                Math.round(blue * 255)));
+        g.setColor(new Color(red, green, blue));
         g.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
         shapes.set(i, new Rectangle(s.getName(), x, y, width,
                 height, red, green, blue, s.getAppears(), s.getDisappears()));
-      } else if (currentTime <= s.getDisappears()
+      }
+      if (currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Oval) {
-        g.setColor(new Color(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)));
+        g.setColor(new Color(red, green, blue));
         g.fillOval(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
         shapes.set(i, new Oval(s.getName(), x, y, width,
                 height, red, green, blue, s.getAppears(), s.getDisappears()));
@@ -115,11 +116,34 @@ public class AnimationPanel extends JPanel implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (currentTime < 1000) {
+    ArrayList<Shape> endShapes = shapes;
+    endShapes.sort(new endComparator());
+    int end = 0;
+    if(!endShapes.isEmpty()) {
+      end = endShapes.get(endShapes.size() - 1).getDisappears();
+    }
+    if (currentTime < end) {
       currentTime++;
       repaint();
     } else {
       timer.stop();
+    }
+  }
+
+  /**
+   * This is a AnimationComparator class that implements Comparator interface. This method can help
+   * to sort the list.
+   */
+  private class endComparator implements Comparator<Shape> {
+    /**
+     * This method compares the disappearing time of two SHape object.
+     *
+     * @param s1 Shape object 1 that is being compared
+     * @param s2 Shape object 2 that is being compared
+     * @return the difference between end time of two Shape objects
+     */
+    public int compare(Shape s1, Shape s2) {
+      return s1.getDisappears() - s2.getDisappears();
     }
   }
 

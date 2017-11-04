@@ -31,7 +31,7 @@ public class VisualView extends JFrame implements IView {
    */
   public VisualView(IAnimationModel model, int tickPerSecond) {
     super();
-    this.setSize(800, 800);
+    this.setSize(1000, 1000);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.model = model;
     ArrayList<Shape> shapes = this.model.getShapes();
@@ -39,8 +39,8 @@ public class VisualView extends JFrame implements IView {
     AnimationPanel animationPanel = new AnimationPanel(shapes, animations, tickPerSecond);
 
     JScrollPane p = new JScrollPane(animationPanel);
-    animationPanel.draw();
     this.add(p);
+    animationPanel.draw();
     pack();
   }
 

@@ -1,44 +1,63 @@
+package view;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
-import cs3500.hw05.model.AnimationModel;
+import javax.swing.*;
+
+import model.AnimationModel;
 
 public final class EasyAnimator {
 
   public static void main(String[] args) {
     // FILL IN HERE
-    String fileName= "/Users/TomPeng/Desktop/big-bang-big-crunch.txt";
-    String viewType="svg";
-    String outPutFile="name.svg";
-    int tickPersecond =1;
+    String fileName= "/Users/david.li/Downloads/code/toh-8.txt";
+    String viewType="visual";
+    String outPutFile="/Users/david.li/Downloads/name.svg";
+    int tickPersecond = 1000;
+    IView view = new TextualView("",1);
 
-    for (int i=0; i<args.length;i++) {
-      String cmd = args[i];
+    for (String cmd : args) {
       Scanner scan = new Scanner(cmd);
-      switch(scan.next()) {
+      switch (scan.next()) {
         case "-if":
-          if (scan.hasNext()) {fileName = scan.next();}
-          else {throw new IllegalArgumentException("file name not follow -if");}
+          if (scan.hasNext()) {
+            fileName = scan.next();
+          } else {
+            view.showError("file name not follow -if");
+            throw new IllegalArgumentException("file name not follow -if");
+          }
           break;
         case "-iv":
-        if (scan.hasNext()) {viewType = scan.next();}
-        else {throw new IllegalArgumentException("vie type is not entered");}
-        break;
+          if (scan.hasNext()) {
+            viewType = scan.next();
+          } else {
+            view.showError("view type is not entered");
+            throw new IllegalArgumentException("view type is not entered");
+          }
+          break;
         case "-o":
-          if (scan.hasNext()) {outPutFile = scan.next();}
+          if (scan.hasNext()) {
+            outPutFile = scan.next();
+          }
           break;
         case "-speed":
           if (scan.hasNextInt()) {
             int temp = scan.nextInt();
-            if (temp<1) {throw  new IllegalArgumentException("tick per second must be positive");}
+            if (temp < 1) {
+              view.showError("tick per second must be positive");
+              throw new IllegalArgumentException("tick per second must be positive");
+            }
             tickPersecond = scan.nextInt();
+          } else {
+            view.showError("tick per second is not entered");
+            throw new IllegalArgumentException("tick per second is not entered");
           }
-          else {throw new IllegalArgumentException("tick per second is not entered");}
           break;
         default:
+          view.showError("Unidentified attribute");
           throw new IllegalArgumentException("Unidentified attribute");
       }
     }
@@ -50,9 +69,10 @@ public final class EasyAnimator {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    IView view;
+
     if (viewType.compareTo("text")==0) {
-      view = new TextualView(tickPersecond, model.toString());
+      model.animate();
+      view = new TextualView(model.toString(), tickPersecond);
       view.makeVisible();
     }
     else if (viewType.compareTo("svg")==0) {
@@ -72,7 +92,7 @@ public final class EasyAnimator {
       view.makeVisible();
     }
     else {
-      throw new IllegalArgumentException("unsupported view Type");
+      view.showError("Input is invalid");
     }
   }
 }
