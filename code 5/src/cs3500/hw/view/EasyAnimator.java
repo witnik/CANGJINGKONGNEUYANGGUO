@@ -27,7 +27,7 @@ public final class EasyAnimator {
     if (args.length%2 !=0) {view.showError("command length has to be even");
     System.exit(-1);}
 
-    for (int i=0;i<args.length-2;i+=2) {
+    for (int i=0;i<args.length;i+=2) {
       String s = args[i] + " "+args[i+1];
       Scanner scan = new Scanner(s);
       String cm = scan.next();
@@ -35,7 +35,6 @@ public final class EasyAnimator {
         case "-if":
           if (scan.hasNext()) {
             fileName = scan.next();
-            System.out.print(fileName);
           } else {
             view.showError("file name not follow -if");
             throw new IllegalArgumentException("file name not follow -if");
@@ -57,6 +56,7 @@ public final class EasyAnimator {
         case "-speed":
           if (scan.hasNext()) {
             int temp = Integer.parseInt(scan.next());
+            System.out.print("temp is: " + temp);
             if (temp < 1) {
               view.showError("tick per second must be positive");
               throw new IllegalArgumentException("tick per second must be positive");

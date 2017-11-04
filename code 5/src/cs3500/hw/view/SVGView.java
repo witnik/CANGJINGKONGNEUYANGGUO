@@ -1,31 +1,30 @@
 package view;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-import model.AnimationModel;
-import model.IAnimation;
-import model.IAnimationModel;
-import model.Oval;
-import model.Rectangle;
-import model.Shape;
+import cs3500.hw05.model.IAnimation;
+import cs3500.hw05.model.IAnimationModel;
+import cs3500.hw05.model.Shape;
 
 /**
  * This is the view class that outputs the SVG file.
+ *
  */
 public class SVGView extends JFrame implements IView {
 
   private AnimationPanel panel;
   /**
-   * This is the constructor of the SVGView class.
+   * This is the constructor of the view.SVGView class.
    *
    * @param model         the model that are being outputed
    * @param tickPerSecond the speed of the output
    */
   public SVGView(IAnimationModel model, int tickPerSecond) {
     super();
-    this.setSize(500, 500);
+    this.setPreferredSize(new Dimension(500,500));
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     ArrayList<Shape> shapes = model.getShapes();
     ArrayList<IAnimation> animations = model.getAnimation();
@@ -63,7 +62,7 @@ public class SVGView extends JFrame implements IView {
    * This is a getter method that gets the SVG format output.
    * @return the SVG format output
    */
-  String getSVG() {
-    return this.panel.toSVG();
+    String getSVG() {
+     return this.panel.toSVG();
   }
 }
