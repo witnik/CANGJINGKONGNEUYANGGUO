@@ -1,30 +1,41 @@
 package view;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.*;
+import cs3500.hw05.model.AnimationModel;
 
-import model.AnimationModel;
-
+/**
+ * this class represent an animator, which is used to run an animation.
+ * main method will take in filename, viewType, tickpersecond and outputFile.
+ * if tickPersecond or outputFile is not found, formerone will be set to 1 and, output will be set to System.out.
+ * throw exception if viewType or filename is not specified or valid.
+ */
 public final class EasyAnimator {
 
   public static void main(String[] args) {
     // FILL IN HERE
-    String fileName= "/Users/david.li/Downloads/code/toh-8.txt";
-    String viewType="visual";
-    String outPutFile="/Users/david.li/Downloads/name.svg";
-    int tickPersecond = 1000;
+    String fileName="";
+    String viewType="";
+    String outPutFile="System.out";
+    int tickPersecond =1;
     IView view = new TextualView("",1);
 
-    for (String cmd : args) {
-      Scanner scan = new Scanner(cmd);
-      switch (scan.next()) {
+    if (args.length%2 !=0) {view.showError("command length has to be even");
+    System.exit(-1);}
+
+    for (int i=0;i<args.length-2;i+=2) {
+      String s = args[i] + " "+args[i+1];
+      Scanner scan = new Scanner(s);
+      String cm = scan.next();
+      switch (cm) {
         case "-if":
           if (scan.hasNext()) {
             fileName = scan.next();
+            System.out.print(fileName);
           } else {
             view.showError("file name not follow -if");
             throw new IllegalArgumentException("file name not follow -if");
@@ -44,14 +55,16 @@ public final class EasyAnimator {
           }
           break;
         case "-speed":
-          if (scan.hasNextInt()) {
-            int temp = scan.nextInt();
+          if (scan.hasNext()) {
+            int temp = Integer.parseInt(scan.next());
             if (temp < 1) {
               view.showError("tick per second must be positive");
               throw new IllegalArgumentException("tick per second must be positive");
             }
-            tickPersecond = scan.nextInt();
-          } else {
+            else {
+            tickPersecond = temp;
+          }}
+          else {
             view.showError("tick per second is not entered");
             throw new IllegalArgumentException("tick per second is not entered");
           }
@@ -80,7 +93,13 @@ public final class EasyAnimator {
       String message = ((SVGView)view).getSVG();
       view.makeVisible();
       try {
-        PrintWriter writer = new PrintWriter(outPutFile);
+        PrintWriter writer;
+        if (outPutFile.equalsIgnoreCase("System.out")){
+        writer = new PrintWriter(System.out);
+        }
+        else {
+          writer = new PrintWriter(outPutFile);
+        }
         writer.println(message);
         writer.close();
       } catch (FileNotFoundException e) {
@@ -88,11 +107,13 @@ public final class EasyAnimator {
       }
     }
     else if (viewType.compareTo("visual")==0) {
+      System.out.print(tickPersecond);
       view = new VisualView(model, tickPersecond);
       view.makeVisible();
     }
     else {
-      view.showError("Input is invalid");
+      view.showError("Input view Type is invalid");
+      System.exit(-1);
     }
   }
 }
