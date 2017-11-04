@@ -26,8 +26,8 @@ public abstract class AbstractShape implements Shape {
    * @param appears    the time when this shapes appears
    * @param disappears the time when this shape disappears
    */
-  AbstractShape(String name, float cRed, float cBlue,
-                float cGreen, int appears, int disappears) {
+  AbstractShape(String name, float cRed, float cGreen,
+                float cBlue, int appears, int disappears) {
     this.name = name;
     this.cRed = cRed;
 

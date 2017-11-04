@@ -25,8 +25,25 @@ public class Scale extends AbstractAnimation {
     this.width = width;
     this.height = height;
     this.start = start;
-    change.add((width - s.getWidth()) / (float) (end - start + 1));
-    change.add((height - s.getHeight()) / (float) (end - start + 1));
+  }
+
+  public float getNwidth() {
+    return this.width;
+  }
+
+  public float getNheight() {
+    return this.height;
+  }
+
+  /**
+   * This method get the change per unit time of this IAnimation
+   *
+   * @return change per unit time of this IAnimation
+   */
+  public ArrayList<Float> getChange() {
+    change.set(0, (width - s.getWidth()) / (float) (end - start + 1));
+    change.set(1, (height - s.getHeight()) / (float) (end - start + 1));
+    return change;
   }
 
   /**

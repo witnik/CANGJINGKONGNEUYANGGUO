@@ -27,8 +27,8 @@ public class Rectangle extends AbstractShape {
    */
   public Rectangle(String name, float x, float y,
                    float width, float height, float cRed,
-                   float cBlue, float cGreen, int appears, int disappears) {
-    super(name, cRed, cBlue, cGreen, appears, disappears);
+                   float cGreen, float cBlue, int appears, int disappears) {
+    super(name, cRed, cGreen, cBlue, appears, disappears);
     this.x = x;
     this.y = y;
     this.width = width;

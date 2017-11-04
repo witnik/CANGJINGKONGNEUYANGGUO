@@ -174,8 +174,8 @@ public class AnimationModel implements IAnimationModel {
     }
 
     for (IAnimation a : moves) {
-      a.act();
       animationOutput = animationOutput + a.toString() + "\n";
+      a.act();
     }
 
   }

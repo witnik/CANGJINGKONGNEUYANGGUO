@@ -23,8 +23,7 @@ public class Move extends AbstractAnimation {
     super(s, start, end);
     this.x1 = x1;
     this.y1 = y1;
-    change.add((x1 - s.getX()) / (float) (end - start + 1));
-    change.add((y1 - s.getX()) / (float) (end - start + 1));
+
   }
 
   /**
@@ -42,6 +41,25 @@ public class Move extends AbstractAnimation {
    */
   public String toString() {
     return "Shape " + s.getName() + " moves from (" + s.getX() + "," + s.getY() + ") to ("
-            + this.x1 + "," + this.y1 + ") from time t=" + this.start + " to t=" + this.end + "s";
+            + this.x1 + "," + this.y1 + ") from time t=" + this.start + " to t=" + this.end;
+  }
+
+  public float getX1() {
+    return this.x1;
+  }
+
+  public float getY1() {
+    return this.y1;
+  }
+
+  /**
+   * This method get the change per unit time of this IAnimation
+   *
+   * @return change per unit time of this IAnimation
+   */
+  public ArrayList<Float> getChange() {
+    change.set(0, (x1 - s.getX()) / (float) (end - start + 1));
+    change.set(1, (y1 - s.getY()) / (float) (end - start + 1));
+    return change;
   }
 }

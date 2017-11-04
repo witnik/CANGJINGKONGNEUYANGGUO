@@ -23,9 +23,9 @@ public class Oval extends AbstractShape {
    * @param disappears when the Oval object disappears
    */
   public Oval(String name, float x, float y,
-              float xRadius, float yRadius, float cRed, float cBlue,
-              float cGreen, int appears, int disappears) {
-    super(name, cRed, cBlue, cGreen, appears, disappears);
+              float xRadius, float yRadius, float cRed, float cGreen,
+              float cBlue, int appears, int disappears) {
+    super(name, cRed, cGreen, cBlue, appears, disappears);
     this.name = name;
     this.x = x;
     this.y = y;

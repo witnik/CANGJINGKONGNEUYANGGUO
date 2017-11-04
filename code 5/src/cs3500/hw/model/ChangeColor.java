@@ -27,9 +27,9 @@ public class ChangeColor extends AbstractAnimation {
     this.red = red;
     this.blue = blue;
     this.green = green;
-    change.add((red - s.getRed()) / ((float) (end - start + 1)));
-    change.add((blue - s.getBlue()) / ((float) (end - start + 1)));
-    change.add((green - s.getGreen()) / ((float) (end - start + 1)));
+    change.set(0, (red - s.getRed()) / ((float) (end - start + 1)));
+    change.set(1, (blue - s.getBlue()) / ((float) (end - start + 1)));
+    change.set(2, (green - s.getGreen()) / ((float) (end - start + 1)));
   }
 
   /**
@@ -48,6 +48,30 @@ public class ChangeColor extends AbstractAnimation {
   public String toString() {
     return "Shape " + s.getName() + " changes color from " + s.getColorSet() +
             " to (" + this.red + "," + this.blue + "," + this.green + ") from t=" + this.start +
-            "s to t=" + this.end;
+            " to t=" + this.end;
+  }
+
+  /**
+   * This method get the change per unit time of this IAnimation
+   *
+   * @return change per unit time of this IAnimation
+   */
+  public ArrayList<Float> getChange() {
+    change.set(0, (red - s.getRed()) / ((float) (end - start + 1)));
+    change.set(1, (blue - s.getBlue()) / ((float) (end - start + 1)));
+    change.set(2, (green - s.getGreen()) / ((float) (end - start + 1)));
+    return change;
+  }
+
+  public float getRed() {
+    return this.red;
+  }
+
+  public float getGreen() {
+    return this.green;
+  }
+
+  public float getBlue() {
+    return this.blue;
   }
 }

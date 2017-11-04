@@ -14,7 +14,7 @@ public abstract class AbstractAnimation implements IAnimation {
   /**
    * This is the constructor for the abstract class AbstractAnimation
    *
-   * @param s     the Shape obejct this animation is acting on
+   * @param s     the Shape object this animation is acting on
    * @param start the starting time of this animation
    * @param end   the ending time of this animation
    */
@@ -23,6 +23,9 @@ public abstract class AbstractAnimation implements IAnimation {
     this.start = start;
     this.end = end;
     change = new ArrayList<Float>();
+    change.add(null);
+    change.add(null);
+    change.add(null);
   }
 
   /**
@@ -52,14 +55,5 @@ public abstract class AbstractAnimation implements IAnimation {
    */
   public Shape getShape() {
     return this.s;
-  }
-
-  /**
-   * This method get the change per unit time of this IAnimation
-   *
-   * @return change per unit time of this IAnimation
-   */
-  public ArrayList<Float> getChange() {
-    return change;
   }
 }
