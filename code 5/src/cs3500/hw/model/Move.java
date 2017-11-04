@@ -51,15 +51,4 @@ public class Move extends AbstractAnimation {
   public float getY1() {
     return this.y1;
   }
-
-  /**
-   * This method get the change per unit time of this IAnimation
-   *
-   * @return change per unit time of this IAnimation
-   */
-  public ArrayList<Float> getChange() {
-    change.set(0, (x1 - s.getX()) / (float) (end - start + 1));
-    change.set(1, (y1 - s.getY()) / (float) (end - start + 1));
-    return change;
-  }
 }

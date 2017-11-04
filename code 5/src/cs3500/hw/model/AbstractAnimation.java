@@ -9,7 +9,6 @@ public abstract class AbstractAnimation implements IAnimation {
   Shape s;
   int start;
   int end;
-  ArrayList<Float> change;
 
   /**
    * This is the constructor for the abstract class AbstractAnimation
@@ -22,10 +21,6 @@ public abstract class AbstractAnimation implements IAnimation {
     this.s = s;
     this.start = start;
     this.end = end;
-    change = new ArrayList<Float>();
-    change.add(null);
-    change.add(null);
-    change.add(null);
   }
 
   /**

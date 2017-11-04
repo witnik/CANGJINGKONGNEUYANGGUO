@@ -34,18 +34,6 @@ public class Scale extends AbstractAnimation {
   public float getNheight() {
     return this.height;
   }
-
-  /**
-   * This method get the change per unit time of this IAnimation
-   *
-   * @return change per unit time of this IAnimation
-   */
-  public ArrayList<Float> getChange() {
-    change.set(0, (width - s.getWidth()) / (float) (end - start + 1));
-    change.set(1, (height - s.getHeight()) / (float) (end - start + 1));
-    return change;
-  }
-
   /**
    * This method proceed the Scale animation on the Shape object.
    */
