@@ -58,4 +58,12 @@ public class SVGView extends JFrame implements IView {
     JOptionPane.showMessageDialog(this, error,
             "Error", JOptionPane.ERROR_MESSAGE);
   }
+
+  /**
+   * This is a getter method that gets the SVG format output.
+   * @return the SVG format output
+   */
+  String getSVG() {
+    return this.panel.toSVG();
+  }
 }

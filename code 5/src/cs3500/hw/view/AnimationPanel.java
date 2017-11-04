@@ -41,7 +41,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     this.shapes = shapes;
     this.moves = moves;
     this.tick = tick;
-    this.timer = new Timer(1000 / tick, (ActionListener) this);
+    this.timer = new Timer(Math.round(1000/tick), (ActionListener) this);
   }
 
   /**
@@ -50,6 +50,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
    */
   void draw() {
     timer.start();
+    currentTime = 0;
   }
 
   /**
@@ -69,38 +70,39 @@ public class AnimationPanel extends JPanel implements ActionListener {
       float red = s.getRed();
       float green = s.getGreen();
       float blue = s.getBlue();
-      for (IAnimation a : moves) {
+      for (IAnimation a: moves) {
         Shape temp = a.getShape();
         if (s.getName().equals(temp.getName())
                 && currentTime >= a.getStart()
                 && currentTime <= a.getEnd()) {
           if (a instanceof Move) {
-            x += a.getChange().get(0);
-            y += a.getChange().get(1);
+            x = s.getX() + a.getChange().get(0);
+            y = s.getY() + a.getChange().get(1);
           } else if (a instanceof Scale) {
-            width += a.getChange().get(0);
-            height += a.getChange().get(1);
+            width = s.getWidth() + a.getChange().get(0);
+            height = s.getHeight() + a.getChange().get(1);
           } else {
-            red += (a.getChange().get(0));
-            green = green + (a.getChange().get(2));
-            blue += (a.getChange().get(1));
+            red = s.getRed() + (a.getChange().get(0));
+            green = s.getGreen() + (a.getChange().get(2));
+            blue = s.getBlue() + (a.getChange().get(1));
           }
         }
       }
       if (currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Rectangle) {
-        g.setColor(new Color(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)));
+        g.setColor(new Color(Math.round(red * 255), Math.round(green * 255),
+                Math.round(blue * 255)));
         g.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
         shapes.set(i, new Rectangle(s.getName(), x, y, width,
-                (float) height, red, blue, green, s.getAppears(), s.getDisappears()));
+                height, red, green, blue, s.getAppears(), s.getDisappears()));
       } else if (currentTime <= s.getDisappears()
               && currentTime >= s.getAppears()
               && s instanceof Oval) {
         g.setColor(new Color(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)));
         g.fillOval(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
         shapes.set(i, new Oval(s.getName(), x, y, width,
-                (float) height, red, blue, green, s.getAppears(), s.getDisappears()));
+                height, red, green, blue, s.getAppears(), s.getDisappears()));
       }
     }
   }
@@ -129,7 +131,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
    */
   String toSVG() {
     String result = "";
-    for (Shape s : this.shapes) {
+    for (Shape s : shapes) {
       String start;
       String type;
       String param;
@@ -137,7 +139,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
       String yLen;
       String tempResult = "";
       if (s instanceof Rectangle) {
-        start = String.format("<rect id=\"%s\" cx=\"%d\" cy=\"%d\" width=\"%d\" height=\"%d\"" +
+        start = String.format("<rect id=\"%s\" x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\"" +
                         " fill=\"rgb(%d,%d,%d)\" visibility=\"hidden\" >\n", s.getName(),
                 Math.round(s.getX()), Math.round(s.getY()),
                 Math.round(s.getWidth()), Math.round(s.getHeight()),
@@ -168,57 +170,80 @@ public class AnimationPanel extends JPanel implements ActionListener {
       }
       tempResult += String.format("<set attributeName=\"visibility\"" +
               " attributeType=\"CSS\" to=\"visible\"" +
-              " begin=\"%ds\"/>\n", s.getAppears() / this.tick);
+              " begin=\"%dms\"/>\n", s.getAppears() * 1000 / this.tick);
       tempResult += String.format("<set attributeName=\"visibility\"" +
               " attributeType=\"CSS\" to=\"" +
-              "hidden\" begin=\"%ds\"/>\n", s.getDisappears() / this.tick);
+              "hidden\" begin=\"%dms\"/>\n", s.getDisappears() * 1000 / this.tick);
 
       for (IAnimation m : allInstructions) {
         if (m instanceof Move) {
-          int x = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1) + s.getX());
-          int y = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1) + s.getY());
-          tempResult += String.format("<animate attributeType=\"xml\" begin=\"%ds\" " +
-                          "dur=\"%ds\" attributeName=\"%sx\"" +
+          int x = Math.round(((Move) m).getX1());
+          int y = Math.round(((Move) m).getY1());
+          tempResult += String.format("<animate attributeType=\"xml\" begin=\"%dms\" " +
+                          "dur=\"%dms\" attributeName=\"%sx\"" +
                           " from=\"%d\" to=\"%d\" fill=\"freeze\" />\n",
-                  m.getStart() / tick, (m.getEnd() - m.getStart() / tick),
+                  m.getStart() * 1000 / this.tick, (m.getEnd() - m.getStart()) * 1000 / this.tick,
                   param, Math.round(s.getX()),
                   Math.round(x));
-          tempResult += String.format("<animate attributeType=\"xml\" begin=\"%ds\" " +
-                          "dur=\"%ds\" attributeName=\"%sy\" from=\"%d\"" +
+          tempResult += String.format("<animate attributeType=\"xml\" begin=\"%dms\" " +
+                          "dur=\"%dms\" attributeName=\"%sy\" from=\"%d\"" +
                           " to=\"%d\" fill=\"freeze\" />\n",
-                  m.getStart() / tick, (m.getEnd() - m.getStart() / tick),
+                  m.getStart() * 1000 / this.tick, (m.getEnd() - m.getStart()) * 1000 / this.tick,
                   param, Math.round(s.getY()),
                   Math.round(y));
+          if (type.equals("rect")) {
+            s = new Rectangle(s.getName(), (float) x, (float) y, s.getWidth(), s.getHeight(),
+                    s.getRed(), s.getGreen(), s.getBlue(), s.getAppears(), s.getDisappears());
+          } else {
+            s = new Oval(s.getName(), (float) x, (float) y, s.getWidth(), s.getHeight(),
+                    s.getRed(), s.getGreen(), s.getBlue(), s.getAppears(), s.getDisappears());
+          }
         } else if (m instanceof ChangeColor) {
-          float red = m.getChange().get(0) * (float) (m.getEnd() - m.getStart() + 1) + s.getRed();
-          float green = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1) + s.getGreen();
-          float blue = m.getChange().get(1) * (float) (m.getEnd() - m.getStart() + 1) + s.getBlue();
+          float red = ((ChangeColor) m).getRed();
+          float green = ((ChangeColor) m).getGreen();
+          float blue = ((ChangeColor) m).getBlue();
           tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"fill\"" +
-                          " from=\"rgb(%d,%d,%d)\" to=\"rgb(%d,%d,%d)\"\n dur=\"%d\"" +
-                          " begin=\"%ds\" repeatCount=\"0\" fill=\"freeze\" />\n",
+                          " from=\"rgb(%d,%d,%d)\" to=\"rgb(%d,%d,%d)\"\n dur=\"%dms\"" +
+                          " begin=\"%dms\" repeatCount=\"0\" fill=\"freeze\" />\n",
                   Math.round(s.getRed() * 255), Math.round(s.getGreen() * 255),
                   Math.round(s.getBlue() * 255), Math.round(red * 255),
-                  Math.round(green * 255), Math.round(blue * 255), m.getEnd() - m.getStart(),
-                  m.getStart());
+                  Math.round(green * 255), Math.round(blue * 255), (m.getEnd() - m.getStart()) * 1000 / this.tick,
+                  m.getStart() * 1000 / this.tick);
+          if (type.equals("rect")) {
+            s = new Rectangle(s.getName(), s.getX(), s.getY(), s.getWidth(), s.getHeight(),
+                    red, green, blue, s.getAppears(), s.getDisappears());
+          } else {
+            s = new Oval(s.getName(), s.getX(), s.getY(), s.getWidth(), s.getHeight(),
+                    red, green, blue, s.getAppears(), s.getDisappears());
+          }
         } else {
-          int width = Math.round(m.getChange().get(0) * (m.getEnd() - m.getStart() + 1) + s.getWidth());
-          int height = Math.round(m.getChange().get(1) * (m.getEnd() - m.getStart() + 1) + s.getHeight());
+          int width = Math.round(((Scale) m).getNwidth());
+          int height = Math.round(((Scale) m).getNheight());
           tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"%s\"" +
-                          " from=\"%d\" to=\"%d\"\n dur=\"%d\" begin=\"%ds\"" +
+                          " from=\"%d\" to=\"%d\"\n dur=\"%dms\" begin=\"%dms\"" +
                           " repeatCount=\"0\" fill=\"freeze\" />\n", xLen,
-                  Math.round(s.getWidth()), width, m.getEnd() - m.getStart(), m.getStart());
+                  Math.round(s.getWidth()), width, (m.getEnd() - m.getStart()) / this.tick,
+                  m.getStart() * 1000 / this.tick);
 
           tempResult += String.format("<animate attributeType=\"XML\" attributeName=\"%s\"" +
-                          " from=\"%d\" to=\"%d\"\n dur=\"%d\" begin=\"%ds\"" +
+                          " from=\"%d\" to=\"%d\"\n dur=\"%dms\" begin=\"%dms\"" +
                           " repeatCount=\"0\" fill=\"freeze\" />\n", yLen,
-                  Math.round(s.getHeight()), height, m.getEnd() - m.getStart(), m.getStart());
+                  Math.round(s.getHeight()), height, (m.getEnd() - m.getStart()) * 1000 / this.tick,
+                  m.getStart() * 1000 / this.tick);
+          if (type.equals("rect")) {
+            s = new Rectangle(s.getName(), s.getX(), s.getY(), (float) width, (float) height,
+                    s.getRed(), s.getGreen(), s.getBlue(), s.getAppears(), s.getDisappears());
+          } else {
+            s = new Oval(s.getName(), s.getX(), s.getY(), (float) width, (float) height,
+                    s.getRed(), s.getGreen(), s.getBlue(), s.getAppears(), s.getDisappears());
+          }
         }
       }
       tempResult += "</" + type + ">\n";
       result += tempResult;
     }
 
-    return "<svg width=\"120\" height=\"120\" viewBox=\"0 0 120 120\"\n" +
+    return "<svg width=\"700\" height=\"500\" version=\"1.1\"\n" +
             "    xmlns=\"http://www.w3.org/2000/svg\">\n" + result + "</svg>";
   }
 }
